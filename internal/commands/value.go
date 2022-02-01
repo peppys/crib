@@ -42,7 +42,7 @@ var manager *property.Manager
 var address string
 
 func init() {
-	valueCmd.Flags().StringVarP(&address, "address", "a", "", "Address of your cli")
+	valueCmd.Flags().StringVarP(&address, "address", "a", "", "Address of your crib")
 	valueCmd.MarkFlagRequired("address")
 	rootCmd.AddCommand(valueCmd)
 	manager = property.NewManager(
