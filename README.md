@@ -1,7 +1,7 @@
 # crib
 nice crib
 
-## Install
+## Installation
 Navigate to the [latest release](https://github.com/peppys/crib/releases/latest) and download the binary for your OS.  
 Assuming it's mac, here's how to install v1.0.1:
 ```shell
@@ -22,15 +22,6 @@ Flags:
   -a, --address string   Address of your crib
   -h, --help             help for value
 ```
-```shell
-$ ./crib value -a '123rd Fake St'
- ██████ ██████  ██ ██████
-██      ██   ██ ██ ██   ██
-██      ██████  ██ ██████
-██      ██   ██ ██ ██   ██
- ██████ ██   ██ ██ ██████
 
-Vendor | Estimate
-zillow | $748,300.00
-redfin | $712,550.92
-```
+## Demo  
+![demo](demo.gif)  
