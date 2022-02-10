@@ -11,7 +11,7 @@ type Crib struct {
 
 type Option func(c *Crib)
 
-func NewCrib(opts ...Option) *Crib {
+func New(opts ...Option) *Crib {
 	c := &Crib{}
 
 	for _, opt := range opts {

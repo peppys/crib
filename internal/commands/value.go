@@ -53,7 +53,7 @@ func init() {
 	valueCmd.Flags().StringVarP(&address, "address", "a", "", "Address of your crib")
 	valueCmd.MarkFlagRequired("address")
 	rootCmd.AddCommand(valueCmd)
-	theCrib = crib.NewCrib(
+	theCrib = crib.New(
 		crib.WithEstimators(
 			estimators.NewZillowEstimator(zillow.NewClient(http.DefaultClient)),
 			estimators.NewRedfinEstimator(redfin.NewClient(http.DefaultClient)),
