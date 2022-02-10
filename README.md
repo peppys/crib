@@ -10,7 +10,7 @@ $ curl -L https://github.com/peppys/crib/releases/download/1.0.1/crib_1.0.1_Darw
 $ tar -xzvf crib.tar.gz
 ```
 
-## Usage
+## CLI Usage
 ```shell
 $ ./crib value --help
 Checks the estimated valuation of your property
@@ -23,5 +23,32 @@ Flags:
   -h, --help             help for value
 ```
 
-## Demo  
+## Library Usage
+```go
+package main
+
+import (
+	"github.com/peppys/crib/pkg/crib"
+	"github.com/peppys/crib/pkg/crib/estimators"
+	"log"
+)
+
+func main() {
+	c := crib.NewCrib(
+		crib.WithEstimators(
+			estimators.DefaultZillowEstimator(),
+			estimators.DefaultRedfinEstimator(),
+		),
+	)
+
+	estimates, err := c.Estimate("1443 delvin dr los angeles, ca")
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	log.Printf("found estimates: %+v", estimates)
+}
+```
+
+## CLI Demo  
 ![demo](demo.gif)  

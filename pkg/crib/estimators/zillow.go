@@ -2,17 +2,21 @@ package estimators
 
 import (
 	"fmt"
-	"github.com/peppys/crib/internal/services/property"
-	"github.com/peppys/crib/pkg/zillow"
+	"github.com/peppys/crib/internal/zillow"
+	"net/http"
 )
 
-func NewZillowEstimator(client *zillow.Client) func(address string) ([]property.Estimate, error) {
-	return func(address string) ([]property.Estimate, error) {
+func DefaultZillowEstimator() func(address string) ([]Estimate, error) {
+	return NewZillowEstimator(zillow.NewClient(http.DefaultClient))
+}
+
+func NewZillowEstimator(client *zillow.Client) func(address string) ([]Estimate, error) {
+	return func(address string) ([]Estimate, error) {
 		searchResponse, err := client.SearchProperties(address)
 		if err != nil {
 			return nil, fmt.Errorf("error looking up address on zillow: %w", err)
 		}
-		if len(searchResponse.Results) == 0 {
+		if searchResponse.Results[0].MetaData.Zpid == 0 {
 			return nil, fmt.Errorf("could not find property on zillow")
 		}
 		propertyResponse, err := client.LookupProperty(searchResponse.Results[0].MetaData.Zpid)
@@ -20,9 +24,9 @@ func NewZillowEstimator(client *zillow.Client) func(address string) ([]property.
 			return nil, fmt.Errorf("error looking up property on zillow: %w", err)
 		}
 
-		return []property.Estimate{
+		return []Estimate{
 			{
-				Vendor: property.Zillow,
+				Vendor: Zillow,
 				Value:  float64(propertyResponse.LookupResults[0].Estimates.Zestimate),
 			},
 		}, nil
