@@ -26,8 +26,8 @@ func NewZillowEstimator(client *zillow.Client) func(address string) ([]Estimate,
 
 		return []Estimate{
 			{
-				Vendor: Zillow,
-				Value:  float64(propertyResponse.LookupResults[0].Estimates.Zestimate),
+				Provider: Zillow,
+				Value:    propertyResponse.LookupResults[0].Estimates.Zestimate * 100,
 			},
 		}, nil
 	}

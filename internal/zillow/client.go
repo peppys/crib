@@ -37,8 +37,8 @@ type PropertyLookupResponse struct {
 	LookupResults []struct {
 		Zpid      int
 		Estimates struct {
-			Zestimate     int
-			RentZestimate int
+			Zestimate     int64
+			RentZestimate int64
 		}
 	}
 }

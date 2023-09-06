@@ -27,8 +27,8 @@ func NewRedfinEstimator(client *redfin.Client) func(address string) ([]Estimate,
 
 		return []Estimate{
 			{
-				Vendor: Redfin,
-				Value:  avmResponse.Payload.Root.AVMInfo.PredictedValue,
+				Provider: Redfin,
+				Value:    int64(avmResponse.Payload.Root.AVMInfo.PredictedValue * 100),
 			},
 		}, nil
 	}
