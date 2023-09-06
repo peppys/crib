@@ -3,9 +3,9 @@ nice crib
 
 ## Installation
 Navigate to the [latest release](https://github.com/peppys/crib/releases/latest) and download the binary for your OS.  
-Assuming it's mac, here's how to install v2.0.1:
+Assuming it's mac, here's how to install v2.0.2:
 ```shell
-$ curl -L https://github.com/peppys/crib/releases/download/2.0.1/crib_Darwin_arm64.tar.gz --output crib.tar.gz 
+$ curl -L https://github.com/peppys/crib/releases/download/2.0.2/crib_Darwin_arm64.tar.gz --output crib.tar.gz 
 
 $ tar -xzvf crib.tar.gz
 ```
