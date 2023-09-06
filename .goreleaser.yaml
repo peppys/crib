@@ -10,6 +10,11 @@ builds:
       - linux
       - windows
       - darwin
+    goarch:
+      - arm
+      - arm64
+      - amd64
+      - "386"
 archives:
   - name_template: >-
       {{- .ProjectName }}_
