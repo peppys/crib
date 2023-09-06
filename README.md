@@ -20,6 +20,7 @@ Usage:
 
 Flags:
   -a, --address string   Address of your crib
+  -f, --format string    Format of output (table/json,csv) (default "table")
   -h, --help             help for value
 ```
 
