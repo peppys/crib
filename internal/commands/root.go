@@ -1,8 +1,10 @@
 package commands
 
 import (
+	"github.com/pterm/pterm"
 	"github.com/spf13/cobra"
 	"log"
+	"os"
 )
 
 var rootCmd = &cobra.Command{
@@ -19,8 +21,20 @@ var rootCmd = &cobra.Command{
 	},
 }
 
-func Execute() {
+func Execute(version string) {
+	rootCmd.AddCommand(versionCmd(version))
 	if err := rootCmd.Execute(); err != nil {
 		log.Fatal(err)
+	}
+}
+
+func versionCmd(version string) *cobra.Command {
+	return &cobra.Command{
+		Use:   "version",
+		Short: "View the installed version of crib",
+		Long:  "View the installed version of crib",
+		Run: func(cmd *cobra.Command, args []string) {
+			pterm.DefaultBasicText.WithWriter(os.Stderr).Printfln("version: %v", version)
+		},
 	}
 }
