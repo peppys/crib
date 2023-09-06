@@ -1,15 +1,15 @@
 package estimators
 
-type Vendor string
+type Provider string
 
 const (
-	Zillow Vendor = "ZILLOW"
-	Redfin        = "REDFIN"
+	Zillow Provider = "zillow"
+	Redfin          = "redfin"
 )
 
 type Estimate struct {
-	Vendor Vendor
-	Value  float64
+	Provider Provider `json:"provider"`
+	Value    int64    `json:"value"`
 }
 
 type Estimator func(string) ([]Estimate, error)
