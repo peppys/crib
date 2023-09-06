@@ -97,7 +97,7 @@ var validFormats = []string{tableFormat, jsonFormat, csvFormat}
 
 func init() {
 	valueCmd.Flags().StringVarP(&address, "address", "a", "", "Address of your crib")
-	valueCmd.Flags().StringVarP(&format, "format", "f", tableFormat, "Format of output (table/json)")
+	valueCmd.Flags().StringVarP(&format, "format", "f", tableFormat, "Format of output (table/json/csv)")
 	valueCmd.MarkFlagRequired("address")
 	rootCmd.AddCommand(valueCmd)
 	theCrib = crib.New(
