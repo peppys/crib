@@ -50,26 +50,26 @@ func NewClient(httpClient *http.Client) *Client {
 func (c *Client) SearchProperties(address string) (*SearchPropertiesResponse, error) {
 	req, err := http.NewRequest("GET", fmt.Sprintf("https://www.zillowstatic.com/autocomplete/v3/suggestions?q=%s", url.QueryEscape(address)), nil)
 	if err != nil {
-		return nil, fmt.Errorf("error building zillow api request: %w", err)
+		return nil, fmt.Errorf("error building zillow autocomplete request: %w", err)
 	}
 	req.Header.Set("User-Agent", "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/97.0.4692.99 Safari/537.36")
 	resp, err := c.httpClient.Do(req)
 	if err != nil {
-		return nil, fmt.Errorf("error querying zillow api: %w", err)
+		return nil, fmt.Errorf("error querying zillow autocomplete: %w", err)
 	}
 	defer resp.Body.Close()
 	var result *SearchPropertiesResponse
 
 	b, err := io.ReadAll(resp.Body)
 	if err != nil {
-		return nil, fmt.Errorf("error reading zillow api response: %w", err)
+		return nil, fmt.Errorf("error reading zillow autocomplete response: %w", err)
 	}
 	if resp.StatusCode != 200 {
-		return nil, fmt.Errorf("error querying zillow api: %s", string(b))
+		return nil, fmt.Errorf("error querying zillow autocomplete: %s", string(b))
 	}
 	err = json.Unmarshal(b, &result)
 	if err != nil {
-		return nil, fmt.Errorf("error json decoding zillow api response: %w", err)
+		return nil, fmt.Errorf("error json decoding zillow autocomplete response: %w", err)
 	}
 
 	return result, nil
