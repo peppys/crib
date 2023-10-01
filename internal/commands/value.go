@@ -16,6 +16,7 @@ import (
 	"math/big"
 	"net/http"
 	"os"
+	"regexp"
 	"strconv"
 	"strings"
 )
@@ -29,6 +30,14 @@ var valueCmd = &cobra.Command{
 			pterm.Error.WithWriter(os.Stderr).Println("address must be provided")
 			cmd.Help()
 			os.Exit(1)
+		}
+
+		// sanitize
+		address = strings.TrimSpace(address)
+
+		// detect & truncate ZIP+4 to prevent redfin errors (ex: 90069-1804)
+		if regexp.MustCompile("(?i)^.*\\d\\d\\d\\d\\d-\\d\\d\\d\\d$").MatchString(address) {
+			address = address[:len(address)-5]
 		}
 	},
 	Run: func(cmd *cobra.Command, args []string) {
