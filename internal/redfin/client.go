@@ -3,8 +3,11 @@ package redfin
 import (
 	"encoding/json"
 	"fmt"
+	"github.com/google/uuid"
 	"io"
+	"log"
 	"net/http"
+	"net/http/cookiejar"
 	"net/url"
 	"strings"
 )
@@ -47,15 +50,17 @@ type AVMResponse struct {
 }
 
 func NewClient(httpClient *http.Client) *Client {
+	mustConfigureAuthCookies(httpClient)
+
 	return &Client{httpClient}
 }
 
 func (c *Client) SearchProperties(address string) (*SearchPropertiesResponse, error) {
-	req, err := http.NewRequest("GET", fmt.Sprintf("https://www.redfin.com/stingray/do/location-autocomplete?location=%s&v=3", url.QueryEscape(address)), nil)
+	req, err := http.NewRequest("GET", fmt.Sprintf("https://www.redfin.com/stingray/do/location-autocomplete?location=%s&v=2", url.QueryEscape(address)), nil)
 	if err != nil {
 		return nil, fmt.Errorf("error building redfin api request: %w", err)
 	}
-	req.Header.Set("User-Agent", "Redfin/402.1.0.6002 CFNetwork/1240.0.4 Darwin/20.5.0")
+	req.Header.Set("User-Agent", "Redfin/556.0.0.23067 CFNetwork/1240.0.4 Darwin/20.5.0")
 	resp, err := c.httpClient.Do(req)
 	if err != nil {
 		return nil, fmt.Errorf("error querying redfin api: %w", err)
@@ -104,4 +109,22 @@ func (c *Client) GetAutomatedValuationModel(propertyId string) (*AVMResponse, er
 	}
 
 	return result, nil
+}
+
+func mustConfigureAuthCookies(httpClient *http.Client) {
+	if httpClient.Jar == nil {
+		jar, err := cookiejar.New(nil)
+		if err != nil {
+			log.Fatalf("failed to initialize redfin client cookie jar: %v", err)
+		}
+		httpClient.Jar = jar
+	}
+
+	httpClient.Jar.SetCookies(
+		&url.URL{Scheme: "http", Host: "www.redfin.com"},
+		[]*http.Cookie{{
+			Name:  "aws-waf-token",
+			Value: uuid.New().String(),
+		}},
+	)
 }
